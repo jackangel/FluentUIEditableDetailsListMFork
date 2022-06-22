@@ -64,6 +64,20 @@ export const GridColumnConfig : IColumnConfig[] =
         applyColumnFilter: true
     },
     {
+        key: 'checky',
+        name: 'checky',
+        text: 'checky',
+        editable: true,
+        dataType: 'number',
+        minWidth: 100,
+        maxWidth: 100,
+        isResizable: false,
+        includeColumnInExport: true,
+        includeColumnInSearch: true,
+        applyColumnFilter: true,
+        inputType: EditControlType.Checkbox
+    },
+    {
         key: 'designation',
         name: 'Designation',
         text: 'Designation',
@@ -111,7 +125,15 @@ export const GridColumnConfig : IColumnConfig[] =
         isResizable: true,
         includeColumnInExport: true,
         includeColumnInSearch: true,
-        inputType: EditControlType.Date
+        inputType: EditControlType.Date,
+        dateFormater: (date?: Date): string => {
+            if (!date) return '';
+            const month = date.getMonth() + 1; // + 1 because 0 indicates the first Month of the Year.
+            const day = date.getDate();
+            const year = date.getFullYear();
+    
+            return `${day}/${month}/${year}`;
+        }
     },
     {
         key: 'payrolltype',
@@ -193,6 +215,7 @@ export interface GridItemsType {
     customerhovercol: string;
     name: string;
     age: number;
+    checky: 0|1;
     designation: string;
     salary: number;
     dateofjoining: string;

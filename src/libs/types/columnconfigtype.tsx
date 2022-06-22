@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConstrainMode, IColumn, IDetailsHeaderProps } from 'office-ui-fabric-react/lib/components/DetailsList/DetailsList.types';
-import { IDropdownOption } from "office-ui-fabric-react";
-import { CalculationType } from "./calculationtype";
+import {
+    ConstrainMode,
+    IColumn,
+    IDetailsHeaderProps,
+} from 'office-ui-fabric-react/lib/components/DetailsList/DetailsList.types';
+import { IDropdownOption } from 'office-ui-fabric-react';
+import { CalculationType } from './calculationtype';
 import { ICellStyleRulesType, StringOperators } from './cellstyleruletype';
-import { EditControlType } from "./editcontroltype";
+import { EditControlType } from './editcontroltype';
 
 export interface IColumnConfig extends IColumn {
     key: string;
@@ -16,7 +20,7 @@ export interface IColumnConfig extends IColumn {
     includeColumnInExport?: boolean;
     includeColumnInSearch?: boolean;
     inputType?: EditControlType;
-    calculatedColumn?: { type: CalculationType, fields: any[]  };
+    calculatedColumn?: { type: CalculationType; fields: any[] };
     onChange?: any;
     maxLength?: number;
     applyColumnFilter?: boolean;
@@ -26,12 +30,13 @@ export interface IColumnConfig extends IColumn {
     disableSort?: boolean;
     hoverComponentOptions?: IHoverOptions;
     linkOptions?: ILinkOptions;
-};
+    dateFormater?: ((date: Date | undefined) => string) | undefined;
+}
 
 export interface ILinkOptions {
     href?: string;
     onClick?: any;
-    disabled?: boolean
+    disabled?: boolean;
 }
 
 export interface IHoverOptions {

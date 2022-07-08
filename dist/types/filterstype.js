@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.stringOperatorEval = exports.dateOperatorEval = exports.numberOperatorEval = exports.operatorEval1 = exports.operatorsArr = void 0;
+exports.stringOperatorEval = exports.operatorsArr = exports.operatorEval1 = exports.numberOperatorEval = exports.dateOperatorEval = void 0;
 var operatorsArr = [{
   type: 'string',
   value: ['equals', 'contains', 'starts with', 'ends with', 'not equal to']

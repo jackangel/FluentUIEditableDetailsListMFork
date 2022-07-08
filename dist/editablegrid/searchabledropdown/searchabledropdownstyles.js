@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.stackTokens = exports.styles = exports.dropdownStyles = void 0;
+exports.styles = exports.stackTokens = exports.dropdownStyles = void 0;
 
 var _officeUiFabricReact = require("office-ui-fabric-react");
 

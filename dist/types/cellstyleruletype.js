@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NumberAndDateOperators = exports.StringOperators = void 0;
+exports.StringOperators = exports.NumberAndDateOperators = void 0;
 var StringOperators;
 exports.StringOperators = StringOperators;
 

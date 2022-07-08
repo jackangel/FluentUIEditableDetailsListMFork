@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ShallowCopyEditGridToDefaultGrid = exports.ShallowCopyDefaultGridToEditGrid = exports.InitializeInternalGridEditStructure = exports.ResetGridRowID = exports.InitializeInternalGrid = void 0;
+exports.ShallowCopyEditGridToDefaultGrid = exports.ShallowCopyDefaultGridToEditGrid = exports.ResetGridRowID = exports.InitializeInternalGridEditStructure = exports.InitializeInternalGrid = void 0;
 
 var _operation = require("../types/operation");
 

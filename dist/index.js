@@ -3,16 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "EditableGrid", {
-  enumerable: true,
-  get: function get() {
-    return _editablegrid["default"];
-  }
-});
 Object.defineProperty(exports, "EditControlType", {
   enumerable: true,
   get: function get() {
     return _editcontroltype.EditControlType;
+  }
+});
+Object.defineProperty(exports, "EditableGrid", {
+  enumerable: true,
+  get: function get() {
+    return _editablegrid["default"];
   }
 });
 Object.defineProperty(exports, "EventEmitter", {

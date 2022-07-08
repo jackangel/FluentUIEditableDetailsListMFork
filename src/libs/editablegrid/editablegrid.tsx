@@ -127,6 +127,7 @@ import AddRowPanel from './addrowpanel';
 import { Props } from '../types/editabledetailslistprops';
 import SearchableDropdown from './searchabledropdown/searchabledropdown';
 import PickerControl from './pickercontrol/picker';
+import 'regenerator-runtime';
 
 interface SortOptions {
     key: string;
@@ -2367,7 +2368,7 @@ const EditableGrid = (props: Props) => {
                 key: 'submit',
                 text: 'Submit',
                 ariaLabel: 'Submit',
-                disabled: isGridInEdit,
+                disabled: isGridInEdit || !isGridStateEdited,
                 iconProps: { iconName: 'Save' },
                 onClick: () => onGridSave(),
             });

@@ -59,6 +59,8 @@ var _addrowpanel = _interopRequireDefault(require("./addrowpanel"));
 
 var _picker = _interopRequireDefault(require("./pickercontrol/picker"));
 
+require("regenerator-runtime");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -1789,7 +1791,7 @@ var EditableGrid = function EditableGrid(props) {
         key: 'submit',
         text: 'Submit',
         ariaLabel: 'Submit',
-        disabled: isGridInEdit,
+        disabled: isGridInEdit || !isGridStateEdited,
         iconProps: {
           iconName: 'Save'
         },

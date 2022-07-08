@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dropdownStyles = exports.textFieldStyles = exports.horizontalGapStackTokens = exports.verticalGapStackTokens = exports.GetDynamicSpanStyles = exports.controlClass = exports.stackStyles = void 0;
+exports.verticalGapStackTokens = exports.textFieldStyles = exports.stackStyles = exports.horizontalGapStackTokens = exports.dropdownStyles = exports.controlClass = exports.GetDynamicSpanStyles = void 0;
 
 var _officeUiFabricReact = require("office-ui-fabric-react");
 

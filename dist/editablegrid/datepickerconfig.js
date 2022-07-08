@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dateToISOLikeButLocal = dateToISOLikeButLocal;
 exports.DayPickerStrings = void 0;
+exports.dateToISOLikeButLocal = dateToISOLikeButLocal;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 var DayPickerStrings = {

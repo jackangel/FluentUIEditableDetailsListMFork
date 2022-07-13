@@ -1796,7 +1796,8 @@ var EditableGrid = function EditableGrid(props) {
           iconName: 'Save'
         },
         onClick: function onClick() {
-          return onGridSave();
+          setGridEditState(false);
+          onGridSave();
         }
       });
     }

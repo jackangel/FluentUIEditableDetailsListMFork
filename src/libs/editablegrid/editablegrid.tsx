@@ -2370,7 +2370,7 @@ const EditableGrid = (props: Props) => {
                 ariaLabel: 'Submit',
                 disabled: isGridInEdit || !isGridStateEdited,
                 iconProps: { iconName: 'Save' },
-                onClick: () => onGridSave(),
+                onClick: () => {setGridEditState(false);onGridSave()},
             });
         }
 

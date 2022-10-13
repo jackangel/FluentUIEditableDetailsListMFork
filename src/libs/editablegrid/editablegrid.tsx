@@ -317,13 +317,16 @@ const EditableGrid = (props: Props) => {
                 )
             );
         }
+        if (props.onGridEditCallback) {
+            props.onGridEditCallback([isGridInEdit, activateCellEdit]);
+        }
     }, [activateCellEdit]);
 
     useEffect(() => {
         //alert('IsGridInEdit: ' + isGridInEdit);
-        if (props.onGridEditCallback) {
-            props.onGridEditCallback([isGridInEdit, activateCellEdit]);
-        }
+        // if (props.onGridEditCallback) {
+        //     props.onGridEditCallback([isGridInEdit, activateCellEdit]);
+        // }
     }, [isGridInEdit]);
 
     useEffect(() => {

@@ -78,6 +78,24 @@ export const GridColumnConfig : IColumnConfig[] =
         inputType: EditControlType.Checkbox
     },
     {
+        key: 'choicegroup',
+        name: 'choicegroup',
+        text: 'choicegroup',
+        editable: true,
+        dataType: 'string',
+        minWidth: 100,
+        maxWidth: 100,
+        isResizable: false,
+        includeColumnInExport: true,
+        includeColumnInSearch: true,
+        applyColumnFilter: true,
+        inputType: EditControlType.ChoiceGroup,
+        choiceGroupDefinition:`[{ "key": "A", "text": "" },
+        { "key": "B", "text": "" },
+        { "key": "C", "text": "", "disabled": true },
+        { "key": "D", "text": "" }]`
+    },
+    {
         key: 'designation',
         name: 'Designation',
         text: 'Designation',
@@ -216,6 +234,7 @@ export interface GridItemsType {
     name: string;
     age: number;
     checky: 0|1;
+    choicegroup: string;
     designation: string;
     salary: number;
     dateofjoining: string;

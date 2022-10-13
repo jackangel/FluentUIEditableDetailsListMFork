@@ -10,5 +10,6 @@ export enum EditControlType {
     DateTime,
     Picker,
     Link,
-    Checkbox
+    Checkbox,
+    ChoiceGroup
 }

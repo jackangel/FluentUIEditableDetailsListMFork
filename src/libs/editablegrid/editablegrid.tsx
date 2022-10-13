@@ -28,6 +28,7 @@ import { MarqueeSelection } from 'office-ui-fabric-react/lib/MarqueeSelection';
 import { IconButton } from 'office-ui-fabric-react/lib/components/Button/IconButton/IconButton';
 import {
     Checkbox,
+    ChoiceGroup,
     PrimaryButton,
     Panel,
     PanelType,
@@ -255,14 +256,33 @@ const EditableGrid = (props: Props) => {
     });
 
     useEffect(() => {
+        if(editMode){
+            setEditMode(false);
+        }
         if (props && props.items) {
             var data: any[] = InitializeInternalGrid(props.items);
             setGridData(data);
             setBackupDefaultGridData(data.map((obj) => ({ ...obj })));
-            setGridEditState(false);
             SetGridItems(data);
         }
     }, [props.items]);
+
+    useEffect(()=>{
+        if(props.isDirty !== undefined && props.isDirty){
+            setGridEditState(true);
+        }
+
+        if(props.isDirty !== undefined && !props.isDirty){
+            setGridEditState(false);
+        }
+    },[props.isDirty])
+
+    useEffect(()=>{
+        if(props.forceGridEditMode !== undefined && props.forceGridEditMode){
+            setIsGridInEdit(true);
+            ShowGridEditMode();
+        }
+    },[props.forceGridEditMode])
 
     useEffect(() => {}, [backupDefaultGridData]);
 
@@ -355,7 +375,7 @@ const EditableGrid = (props: Props) => {
                         }
                     });
             });
-        } catch (e) {
+        } catch (e:any) {
             // if (e !== BreakException) throw e;
         }
 
@@ -376,6 +396,8 @@ const EditableGrid = (props: Props) => {
     const setGridEditState = (editState: boolean): void => {
         if (isGridStateEdited != editState) {
             setIsGridStateEdited(editState);
+            if(props.onDirtyCallback)
+            props.onDirtyCallback(editState);
         }
     };
 
@@ -895,6 +917,29 @@ const EditableGrid = (props: Props) => {
         activateCellEdit.forEach((item, index) => {
             if (row == index) {
                 item.properties[column.key].value = value=== 1 ? 0 : 1;
+            }
+
+            activateCellEditTmp.push(item);
+        });
+
+        if (column.onChange) {
+            HandleColumnOnChange(activateCellEditTmp, row, column);
+        }
+
+        setActivateCellEdit(activateCellEditTmp);
+    };
+
+    const onChoiceGroupChange = (
+        value: any,
+        row: number,
+        column: IColumnConfig
+    ): void => {
+        setGridEditState(true);
+
+        let activateCellEditTmp: any[] = [];
+        activateCellEdit.forEach((item, index) => {
+            if (row == index) {
+                item.properties[column.key].value = value.key;
             }
 
             activateCellEditTmp.push(item);
@@ -2065,6 +2110,36 @@ const EditableGrid = (props: Props) => {
                                                   }/>
                                         </span>
                                     );
+                            case EditControlType.ChoiceGroup:
+                                        return (
+                                            <span>
+                                                <ChoiceGroup defaultSelectedKey={item[column.key]} 
+                                                value={item[column.key]}
+                                                options={column.choiceGroupDefinition!==undefined ? JSON.parse(column.choiceGroupDefinition):[{key:'A',text:'Option A'},{key:'B',text:'Option B'}]} 
+                                                onChange={(ev, option)=>{onChoiceGroupChange(option, rowNum!,column)}}
+                                                disabled={
+                                                    !props.enableDefaultEditMode &&
+                                                    !editMode &&
+                                                    !(
+                                                        activateCellEdit &&
+                                                        activateCellEdit[
+                                                            Number(
+                                                                item[
+                                                                    '_grid_row_id_'
+                                                                ]
+                                                            )!
+                                                        ] &&
+                                                        activateCellEdit[
+                                                            Number(
+                                                                item[
+                                                                    '_grid_row_id_'
+                                                                ]
+                                                            )!
+                                                        ]['isActivated']
+                                                    )
+                                                } />
+                                            </span>
+                                        );
                               default:
                                   return (
                                       <span>

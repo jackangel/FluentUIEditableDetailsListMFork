@@ -43,6 +43,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface GridConfigOptions {
+    forceGridEditMode: boolean;
+    forcedDirty: boolean;
     enableCellEdit: boolean;
     enableRowEdit: boolean;
     enableRowEditCancel: boolean;
@@ -97,6 +99,8 @@ const Consumer = () => {
             enableGridReset: true,
             enableColumnFilters: true,
             enableDefaultEditMode: false,
+            forcedDirty:false,
+            forceGridEditMode:false
         });
 
     const RowSize = 5;
@@ -184,6 +188,14 @@ const Consumer = () => {
         return date;
     };
 
+    const GetRandomLetter = (startLetter, endLetter) =>{
+        const letters=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        const min=letters.indexOf(startLetter)
+        const max=letters.indexOf(endLetter)
+        const randomIndex=Math.max(min,Math.floor(Math.random()*(max+1)));
+        return letters[randomIndex];
+    }
+
     const GetRandomInt = (min: number, max: number): number => {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -192,7 +204,7 @@ const Consumer = () => {
 
     const SetDummyData = (): void => {
         var dummyData: GridItemsType[] = [];
-        for (var i = 1; i <= 100; i++) {
+        for (var i = 1; i <= 5; i++) {
             var randomInt = GetRandomInt(1, 3);
             dummyData.push({
                 id: i,
@@ -200,6 +212,7 @@ const Consumer = () => {
                 name: 'Name' + GetRandomInt(1, 10),
                 age: GetRandomInt(20, 40),
                 checky: GetRandomInt(0, 1) === 0 ? 0 : 1,
+                choicegroup: GetRandomLetter('A','D'),
                 designation: 'Designation' + GetRandomInt(1, 15),
                 salary: GetRandomInt(35000, 75000),
                 dateofjoining: '2010-10-10T14:57:10',
@@ -217,8 +230,36 @@ const Consumer = () => {
         setItems(dummyData);
     };
 
+    const AddDummyData = (): void => {
+        var dummyData: GridItemsType[] = [];
+        for (var i = 1; i <= 5; i++) {
+            var randomInt = GetRandomInt(1, 3);
+            dummyData.push({
+                id: 0,
+                customerhovercol: 'Hover Me',
+                name: 'Name' + GetRandomInt(1, 10),
+                age: GetRandomInt(20, 40),
+                checky: GetRandomInt(0, 1) === 0 ? 0 : 1,
+                choicegroup: GetRandomLetter('A','D'),
+                designation: 'Designation' + GetRandomInt(1, 15),
+                salary: GetRandomInt(35000, 75000),
+                dateofjoining: '2010-10-10T14:57:10',
+                payrolltype:
+                    randomInt % 3 == 0
+                        ? 'Weekly'
+                        : randomInt % 3 == 1
+                        ? 'Bi-Weekly'
+                        : 'Monthly',
+                employmenttype: 'Employment Type' + GetRandomInt(1, 12),
+                employeelink: 'Link',
+            });
+        }
+
+        setItems([...items,...dummyData]);
+    };
+
     React.useEffect(() => {
-        SetDummyData();
+        //SetDummyData();
     }, []);
 
     const onGridSave = (data: any[]): void => {
@@ -304,8 +345,8 @@ const Consumer = () => {
     ): void => {
         setGridConfigOptions({
             ...gridConfigOptions,
-            [(ev.target as Element).id]:
-                !gridConfigOptions[(ev.target as Element).id],
+            [(ev?.target as Element).id]:
+                !gridConfigOptions[(ev?.target as Element).id],
         });
     };
 
@@ -479,6 +520,22 @@ const Consumer = () => {
                             checked={gridConfigOptions.enableDefaultEditMode}
                         />
                     </Stack.Item>
+                    <Stack.Item className={classNames.checkbox}>
+                        <Checkbox
+                            id={'forcedDirty'}
+                            label="Set Forced Dirty"
+                            onChange={onCheckboxChange}
+                            checked={gridConfigOptions.forcedDirty}
+                        />
+                    </Stack.Item>
+                    <Stack.Item className={classNames.checkbox}>
+                        <Checkbox
+                            id={'forceGridEditMode'}
+                            label="Set Forced Edit"
+                            onChange={onCheckboxChange}
+                            checked={gridConfigOptions.forceGridEditMode}
+                        />
+                    </Stack.Item>
                 </Stack>
             </fieldset>
             <div className={classNames.controlWrapper}>
@@ -503,8 +560,11 @@ const Consumer = () => {
                     />
                 </Link>
             </div>
+            <button onClick={()=>{AddDummyData();}}>generate new items</button>
             <EditableGrid
                 id={1}
+                forceGridEditMode={gridConfigOptions.forceGridEditMode}
+                isDirty={gridConfigOptions.forcedDirty}
                 enableColumnEdit={gridConfigOptions.enableColumnEdit}
                 enableSave={gridConfigOptions.enableSave}
                 columns={attachGridValueChangeCallbacks(GridColumnConfig)}

@@ -112,6 +112,10 @@ var EditPanel = function EditPanel(props) {
     if (cellPickerTagList && cellPickerTagList[0] && cellPickerTagList[0].name) SetObjValues(item.key, cellPickerTagList[0].name);else SetObjValues(item.key, '');
   };
 
+  var onChoiceGroupChange = function onChoiceGroupChange(ev, option) {
+    if (ev) SetObjValues(ev.target.parentElement.parentElement.parentElement.parentElement.parentElement.id, option.key);
+  };
+
   var createTextFields = function createTextFields() {
     var tmpRenderObj = [];
     props.columnConfigurationData.filter(function (x) {
@@ -185,6 +189,23 @@ var EditPanel = function EditPanel(props) {
             checked: columnValuesObj[item.key].value === 1,
             onChange: function onChange(ev) {
               return onCheckboxUpdate(ev, item);
+            }
+          }));
+          break;
+
+        case _editcontroltype.EditControlType.ChoiceGroup:
+          tmpRenderObj.push( /*#__PURE__*/_react["default"].createElement(_officeUiFabricReact.ChoiceGroup, {
+            defaultSelectedKey: columnValuesObj[item.key].value,
+            id: item.key,
+            options: item.choiceGroupDefinition !== undefined ? JSON.parse(item.choiceGroupDefinition) : [{
+              key: 'A',
+              text: 'Option A'
+            }, {
+              key: 'B',
+              text: 'Option B'
+            }],
+            onChange: function onChange(ev, option) {
+              onChoiceGroupChange(ev, option);
             }
           }));
           break;

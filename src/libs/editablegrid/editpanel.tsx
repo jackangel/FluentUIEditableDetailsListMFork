@@ -3,6 +3,7 @@
 
 import {
     Checkbox,
+    ChoiceGroup,
     DatePicker,
     divProperties,
     Dropdown,
@@ -135,6 +136,12 @@ const EditPanel = (props: Props) => {
         else SetObjValues(item.key, '');
     };
 
+    const onChoiceGroupChange = (ev:any , option:any) => {
+        if(ev)
+        SetObjValues(
+            (ev.target.parentElement.parentElement.parentElement.parentElement.parentElement as Element).id,option.key);
+    }
+
     const createTextFields = (): any[] => {
         let tmpRenderObj: any[] = [];
         props.columnConfigurationData
@@ -228,6 +235,15 @@ const EditPanel = (props: Props) => {
                                 />
                             );
                             break;
+                    case EditControlType.ChoiceGroup:
+                                tmpRenderObj.push(
+                                    <ChoiceGroup defaultSelectedKey={columnValuesObj[item.key].value} 
+                                    id={item.key}
+                                    options={item.choiceGroupDefinition!==undefined ? JSON.parse(item.choiceGroupDefinition):[{key:'A',text:'Option A'},{key:'B',text:'Option B'}]} 
+                                    onChange={(ev,option)=>{onChoiceGroupChange(ev, option)}}
+                                    />
+                                );
+                    break;
                     default:
                         tmpRenderObj.push(
                             <TextField

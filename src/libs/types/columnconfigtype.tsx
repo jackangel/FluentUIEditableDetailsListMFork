@@ -31,6 +31,7 @@ export interface IColumnConfig extends IColumn {
     hoverComponentOptions?: IHoverOptions;
     linkOptions?: ILinkOptions;
     dateFormater?: ((date: Date | undefined) => string) | undefined;
+    choiceGroupDefinition?: string;
 }
 
 export interface ILinkOptions {

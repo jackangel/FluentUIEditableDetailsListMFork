@@ -20,6 +20,7 @@ export interface Props extends IDetailsListProps {
     onGridUpdate?:any;
     onGridSave?:any
     onGridEditCallback?: (args:any)=> void;
+    onDirtyCallback?: (args:any)=> void;
     enableGridRowsDelete? : boolean;
     enableGridRowsAdd?: boolean;
     enableRowAddWithValues?: IRowAddWithValues;
@@ -41,4 +42,6 @@ export interface Props extends IDetailsListProps {
     onGridStatusMessageCallback?: any;
     gridCopyOptions?: IGridCopy;
     enableDefaultEditMode?: boolean;
+    isDirty?: boolean;
+    forceGridEditMode?:boolean;
 }

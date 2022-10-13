@@ -19,4 +19,5 @@ exports.EditControlType = EditControlType;
   EditControlType[EditControlType["Picker"] = 6] = "Picker";
   EditControlType[EditControlType["Link"] = 7] = "Link";
   EditControlType[EditControlType["Checkbox"] = 8] = "Checkbox";
+  EditControlType[EditControlType["ChoiceGroup"] = 9] = "ChoiceGroup";
 })(EditControlType || (exports.EditControlType = EditControlType = {}));

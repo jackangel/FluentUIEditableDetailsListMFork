@@ -316,16 +316,34 @@ var EditableGrid = function EditableGrid(props) {
     };
   });
   (0, React.useEffect)(function () {
+    if (editMode) {
+      setEditMode(false);
+    }
+
     if (props && props.items) {
       var data = (0, _editablegridinitialize.InitializeInternalGrid)(props.items);
       setGridData(data);
       setBackupDefaultGridData(data.map(function (obj) {
         return _objectSpread({}, obj);
       }));
-      setGridEditState(false);
       SetGridItems(data);
     }
   }, [props.items]);
+  (0, React.useEffect)(function () {
+    if (props.isDirty !== undefined && props.isDirty) {
+      setGridEditState(true);
+    }
+
+    if (props.isDirty !== undefined && !props.isDirty) {
+      setGridEditState(false);
+    }
+  }, [props.isDirty]);
+  (0, React.useEffect)(function () {
+    if (props.forceGridEditMode !== undefined && props.forceGridEditMode) {
+      setIsGridInEdit(true);
+      ShowGridEditMode();
+    }
+  }, [props.forceGridEditMode]);
   (0, React.useEffect)(function () {}, [backupDefaultGridData]); // useEffect(() => {
   //     console.log('Cancellable Rows');
   //     console.log(cancellableRows);
@@ -442,7 +460,11 @@ var EditableGrid = function EditableGrid(props) {
           }
         });
       });
-    } catch (e) {// if (e !== BreakException) throw e;
+    } catch (e) {
+      if (Object.keys(e).length === 0) {
+        setIsGridInEdit(gridEditStatus);
+      } // if (e !== BreakException) throw e;
+
     }
 
     if (!isGridInEdit && gridEditStatus || isGridInEdit && !gridEditStatus) {
@@ -459,6 +481,7 @@ var EditableGrid = function EditableGrid(props) {
   var setGridEditState = function setGridEditState(editState) {
     if (isGridStateEdited != editState) {
       setIsGridStateEdited(editState);
+      if (props.onDirtyCallback) props.onDirtyCallback(editState);
     }
   };
 
@@ -894,6 +917,24 @@ var EditableGrid = function EditableGrid(props) {
     activateCellEdit.forEach(function (item, index) {
       if (row == index) {
         item.properties[column.key].value = value === 1 ? 0 : 1;
+      }
+
+      activateCellEditTmp.push(item);
+    });
+
+    if (column.onChange) {
+      HandleColumnOnChange(activateCellEditTmp, row, column);
+    }
+
+    setActivateCellEdit(activateCellEditTmp);
+  };
+
+  var onChoiceGroupChange = function onChoiceGroupChange(value, row, column) {
+    setGridEditState(true);
+    var activateCellEditTmp = [];
+    activateCellEdit.forEach(function (item, index) {
+      if (row == index) {
+        item.properties[column.key].value = value.key;
       }
 
       activateCellEditTmp.push(item);
@@ -1572,6 +1613,23 @@ var EditableGrid = function EditableGrid(props) {
                 defaultChecked: item[column.key] === 1,
                 onChange: function onChange(ev, checked) {
                   onCheckboxChange(item[column.key], rowNum, column);
+                },
+                disabled: !props.enableDefaultEditMode && !editMode && !(activateCellEdit && activateCellEdit[Number(item['_grid_row_id_'])] && activateCellEdit[Number(item['_grid_row_id_'])]['isActivated'])
+              }));
+
+            case _editcontroltype.EditControlType.ChoiceGroup:
+              return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(_officeUiFabricReact.ChoiceGroup, {
+                defaultSelectedKey: item[column.key],
+                value: item[column.key],
+                options: column.choiceGroupDefinition !== undefined ? JSON.parse(column.choiceGroupDefinition) : [{
+                  key: 'A',
+                  text: 'Option A'
+                }, {
+                  key: 'B',
+                  text: 'Option B'
+                }],
+                onChange: function onChange(ev, option) {
+                  onChoiceGroupChange(option, rowNum, column);
                 },
                 disabled: !props.enableDefaultEditMode && !editMode && !(activateCellEdit && activateCellEdit[Number(item['_grid_row_id_'])] && activateCellEdit[Number(item['_grid_row_id_'])]['isActivated'])
               }));

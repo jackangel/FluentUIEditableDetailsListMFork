@@ -137,6 +137,7 @@ interface SortOptions {
 }
 
 const EditableGrid = (props: Props) => {
+    const [isComponentMounted, setIsComponentMounted]=React.useState(false);
     const [editMode, setEditMode] = React.useState(false);
     const [isOpenForEdit, setIsOpenForEdit] = React.useState(false);
     const dismissPanelForEdit = React.useCallback(
@@ -248,6 +249,10 @@ const EditableGrid = (props: Props) => {
         }
     };
 
+    React.useEffect(()=>{
+        setIsComponentMounted(true);
+    },[])
+
     React.useEffect(() => {
         EventEmitter.subscribe(EventType.onSearch, onSearchHandler);
         return function cleanup() {
@@ -317,16 +322,14 @@ const EditableGrid = (props: Props) => {
                 )
             );
         }
-        if (props.onGridEditCallback) {
-            props.onGridEditCallback([isGridInEdit, activateCellEdit]);
-        }
+
     }, [activateCellEdit]);
 
     useEffect(() => {
         //alert('IsGridInEdit: ' + isGridInEdit);
-        // if (props.onGridEditCallback) {
-        //     props.onGridEditCallback([isGridInEdit, activateCellEdit]);
-        // }
+        if (props.onGridEditCallback) {
+            props.onGridEditCallback([isGridInEdit, activateCellEdit]);
+        }
     }, [isGridInEdit]);
 
     useEffect(() => {
@@ -387,6 +390,10 @@ const EditableGrid = (props: Props) => {
             (isGridInEdit && !gridEditStatus)
         ) {
             setIsGridInEdit(gridEditStatus);
+        }
+
+        if(!isGridInEdit && activateCellEdit.length==0 && isComponentMounted){
+            setIsGridInEdit(true);
         }
     };
 

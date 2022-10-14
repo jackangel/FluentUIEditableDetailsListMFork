@@ -1194,6 +1194,10 @@ const EditableGrid = (props: Props) => {
         SetGridItems(cancellableRows);
         setCancellableRows([]);
         setEditMode(false);
+
+        if (props.onGridEditCallback) {
+            props.onGridEditCallback([false, activateCellEdit]);
+        }
     };
     /* #endregion */
 
